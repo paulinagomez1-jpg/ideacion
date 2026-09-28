@@ -1,0 +1,1070 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Laboratorio de Ideación Educativa</title>
+<style>
+:root{
+  --bg:#f3efe8;
+  --paper:#fffaf4;
+  --paper-2:#f8f3ed;
+  --ink:#1f2430;
+  --muted:#6e7380;
+  --line:#ded6cc;
+  --violet:#7a64d8;
+  --violet-soft:#ece7ff;
+  --coral:#e57f6d;
+  --coral-soft:#fde9e4;
+  --teal:#5a9a91;
+  --teal-soft:#e6f3f0;
+  --gold:#d7a646;
+  --gold-soft:#f9efd8;
+  --navy:#32465a;
+  --shadow:0 18px 45px rgba(58,48,40,.10);
+  --shadow-soft:0 8px 24px rgba(58,48,40,.07);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;
+  color:var(--ink);
+  font-family:Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  background:
+    radial-gradient(circle at 0% 0%, rgba(122,100,216,.13), transparent 22%),
+    radial-gradient(circle at 100% 20%, rgba(90,154,145,.12), transparent 20%),
+    linear-gradient(180deg,#f7f3ee 0%,#f2ede7 100%);
+}
+button,input,textarea,select{font:inherit}
+button{cursor:pointer}
+.wrapper{max-width:1200px;margin:0 auto;padding:30px 20px 70px}
+.hero{
+  position:relative;
+  display:grid;
+  grid-template-columns:1.15fr .85fr;
+  gap:22px;
+  margin-bottom:24px;
+}
+.hero-main,.hero-side,.case,.panel,.method-card,.summary-card{
+  border:1px solid rgba(222,214,204,.9);
+  background:rgba(255,250,244,.92);
+  backdrop-filter:blur(8px);
+  box-shadow:var(--shadow);
+}
+.hero-main{
+  padding:42px 42px 38px;
+  border-radius:34px;
+  overflow:hidden;
+  position:relative;
+}
+.hero-main:before{
+  content:"";
+  position:absolute;
+  width:220px;height:220px;
+  right:-70px;top:-80px;
+  border-radius:50%;
+  background:linear-gradient(135deg,rgba(122,100,216,.24),rgba(229,127,109,.14));
+}
+.hero-main:after{
+  content:"";
+  position:absolute;
+  width:110px;height:110px;
+  left:-25px;bottom:-40px;
+  border-radius:30px;
+  transform:rotate(18deg);
+  background:rgba(90,154,145,.12);
+}
+.hero-copy{position:relative;z-index:1}
+.hero-side{
+  border-radius:34px;
+  padding:28px;
+  background:
+    linear-gradient(150deg,rgba(255,255,255,.92),rgba(245,241,255,.96));
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
+}
+.kicker{
+  font-size:12px;
+  font-weight:800;
+  letter-spacing:.17em;
+  text-transform:uppercase;
+  color:var(--muted);
+}
+h1{
+  font-size:clamp(42px,6vw,72px);
+  line-height:.98;
+  margin:12px 0 18px;
+  letter-spacing:-.055em;
+  max-width:780px;
+}
+h2{
+  font-size:30px;
+  line-height:1.08;
+  margin:0 0 10px;
+  letter-spacing:-.03em;
+}
+h3{font-size:20px;margin:0;letter-spacing:-.015em}
+p{line-height:1.65}
+.muted{color:var(--muted)}
+.badge{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  padding:7px 11px;
+  border-radius:999px;
+  background:var(--teal-soft);
+  color:#356b64;
+  font-size:12px;
+  font-weight:800;
+}
+.route{
+  display:grid;
+  gap:10px;
+  margin-top:18px;
+}
+.route-step{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  padding:13px 14px;
+  background:rgba(255,255,255,.82);
+  border:1px solid var(--line);
+  border-radius:16px;
+}
+.route-num{
+  width:30px;height:30px;
+  border-radius:10px;
+  display:grid;place-items:center;
+  background:var(--violet-soft);
+  color:#5c48bc;
+  font-weight:900;
+  font-size:12px;
+}
+.case{
+  border-radius:30px;
+  padding:28px;
+  margin-bottom:24px;
+}
+.case-head{
+  display:flex;
+  justify-content:space-between;
+  gap:16px;
+  align-items:flex-start;
+  margin-bottom:16px;
+}
+.case-tag{
+  flex:none;
+  background:var(--gold-soft);
+  color:#8a641c;
+  padding:7px 11px;
+  border-radius:999px;
+  font-size:12px;
+  font-weight:800;
+}
+.case-grid{
+  display:grid;
+  grid-template-columns:1.25fr .75fr;
+  gap:22px;
+  align-items:start;
+}
+.case-aside{
+  padding:18px;
+  border-radius:20px;
+  border:1px solid var(--line);
+  background:linear-gradient(180deg,#fffdfa,#f7f2ec);
+}
+.constraint{
+  display:flex;
+  gap:10px;
+  align-items:flex-start;
+  padding:10px 0;
+  border-bottom:1px solid rgba(222,214,204,.7);
+}
+.constraint:last-child{border-bottom:none}
+.dot{
+  width:9px;height:9px;
+  margin-top:7px;
+  border-radius:50%;
+  background:var(--coral);
+  flex:none;
+}
+.challenge{
+  margin-top:22px;
+  padding:24px;
+  border-radius:24px;
+  background:
+    linear-gradient(135deg,rgba(122,100,216,.16),rgba(90,154,145,.10));
+  border:1px solid rgba(122,100,216,.18);
+}
+.challenge .question{
+  font-size:24px;
+  line-height:1.35;
+  font-weight:850;
+  margin-top:6px;
+  max-width:950px;
+}
+.tabs-wrap{
+  position:sticky;
+  top:10px;
+  z-index:5;
+  margin:24px 0;
+}
+.tabs{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+  padding:10px;
+  border:1px solid rgba(222,214,204,.9);
+  background:rgba(255,250,244,.88);
+  backdrop-filter:blur(12px);
+  border-radius:20px;
+  box-shadow:var(--shadow-soft);
+}
+.tab{
+  border:none;
+  background:transparent;
+  color:var(--muted);
+  padding:11px 15px;
+  border-radius:14px;
+  font-weight:800;
+  transition:.18s ease;
+}
+.tab:hover{background:#fff}
+.tab.active{
+  background:var(--ink);
+  color:white;
+}
+.method{display:none}
+.method.active{display:block}
+.grid2{
+  display:grid;
+  grid-template-columns:.72fr 1.28fr;
+  gap:20px;
+}
+.method-card,.panel{
+  border-radius:26px;
+  padding:24px;
+}
+.method-card{
+  position:relative;
+  overflow:hidden;
+}
+.method-card:after{
+  content:"";
+  position:absolute;
+  width:110px;height:110px;
+  right:-30px;bottom:-35px;
+  border-radius:50%;
+  background:rgba(122,100,216,.08);
+}
+.tech-label{
+  display:inline-block;
+  padding:6px 10px;
+  border-radius:999px;
+  font-size:12px;
+  font-weight:800;
+  margin-bottom:12px;
+}
+.tech-brain{background:var(--coral-soft);color:#9a4c3e}
+.tech-scamper{background:var(--violet-soft);color:#5d49bb}
+.tech-hats{background:var(--teal-soft);color:#356d65}
+.rule-list{display:grid;gap:10px;margin-top:18px}
+.rule{
+  display:flex;gap:10px;align-items:flex-start;
+  padding:12px 13px;
+  background:rgba(255,255,255,.78);
+  border:1px solid var(--line);
+  border-radius:14px;
+  font-size:14px;
+}
+.rule-icon{
+  width:24px;height:24px;border-radius:8px;
+  display:grid;place-items:center;
+  background:var(--coral-soft);
+  color:#9b4e41;
+  font-weight:900;
+  flex:none;
+}
+.input-row{display:flex;gap:10px}
+input,textarea,select{
+  width:100%;
+  border:1px solid var(--line);
+  background:#fff;
+  border-radius:15px;
+  padding:13px 14px;
+  color:var(--ink);
+  outline:none;
+}
+input:focus,textarea:focus,select:focus{
+  border-color:var(--violet);
+  box-shadow:0 0 0 4px rgba(122,100,216,.10)
+}
+textarea{resize:vertical}
+.primary,.secondary{
+  border:none;
+  border-radius:14px;
+  padding:12px 16px;
+  font-weight:850;
+}
+.primary{
+  background:linear-gradient(135deg,#6d57cf,#826dde);
+  color:white;
+  box-shadow:0 8px 18px rgba(122,100,216,.22)
+}
+.secondary{
+  background:var(--violet-soft);
+  color:#5946b5;
+}
+.ideas{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:12px;
+  margin-top:16px;
+}
+.idea{
+  background:#fff;
+  border:1px solid var(--line);
+  border-radius:18px;
+  padding:14px;
+  display:flex;
+  gap:11px;
+  align-items:flex-start;
+  box-shadow:0 5px 14px rgba(58,48,40,.04)
+}
+.idea-num{
+  min-width:30px;height:30px;
+  border-radius:10px;
+  display:grid;place-items:center;
+  background:var(--coral-soft);
+  color:#a15143;
+  font-size:12px;
+  font-weight:900
+}
+.idea-text{flex:1;font-size:14px}
+.small{font-size:13px}
+.empty{
+  margin-top:16px;
+  border:1px dashed var(--line);
+  border-radius:17px;
+  padding:22px;
+  text-align:center;
+  color:var(--muted);
+  background:rgba(255,255,255,.55)
+}
+.bulk-box{
+  margin-top:18px;
+  padding:16px;
+  border-radius:18px;
+  border:1px dashed var(--line);
+  background:linear-gradient(180deg,rgba(255,255,255,.72),rgba(248,243,237,.72));
+}
+.bulk-head{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+  gap:12px;
+  margin-bottom:10px;
+}
+.bulk-actions{display:flex;gap:8px;flex-wrap:wrap}
+.tertiary{
+  border:1px solid var(--line);
+  border-radius:12px;
+  padding:10px 13px;
+  font-weight:800;
+  background:white;
+  color:var(--ink)
+}
+.scamper-list,.hat-list{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  margin:16px 0
+}
+.pill{
+  border:1px solid var(--line);
+  background:white;
+  border-radius:999px;
+  padding:9px 12px;
+  font-weight:800;
+  font-size:13px;
+  color:var(--ink)
+}
+.pill.active{
+  background:var(--violet-soft);
+  border-color:var(--violet);
+  color:#5a47b6
+}
+.scamper-detail,.hat-detail{
+  display:grid;
+  grid-template-columns:.68fr 1.32fr;
+  gap:18px;
+  margin-top:18px
+}
+.letter{
+  width:70px;height:70px;
+  border-radius:22px;
+  background:linear-gradient(135deg,var(--violet-soft),#f7f4ff);
+  display:grid;place-items:center;
+  font-size:38px;
+  font-weight:900;
+  color:#5a47b6;
+  margin-bottom:14px;
+  border:1px solid #ddd5ff
+}
+.saved{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:10px;
+  margin-top:14px
+}
+.saved-item{
+  border:1px solid var(--line);
+  border-radius:15px;
+  padding:13px;
+  background:#fff;
+  font-size:14px;
+  box-shadow:0 5px 14px rgba(58,48,40,.04)
+}
+.hat-grid{
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:12px;
+  margin:18px 0
+}
+.hat{
+  border:1px solid var(--line);
+  border-radius:20px;
+  background:white;
+  padding:16px;
+  text-align:left;
+  min-height:120px;
+  transition:.18s transform,.18s border-color,.18s box-shadow;
+  box-shadow:0 5px 15px rgba(58,48,40,.04)
+}
+.hat:hover{transform:translateY(-2px)}
+.hat.active{
+  border-color:var(--teal);
+  box-shadow:0 10px 24px rgba(90,154,145,.16)
+}
+.hat-icon{font-size:28px}
+.hat-name{font-weight:900;margin-top:7px}
+.hat-sub{font-size:12px;color:var(--muted);margin-top:4px}
+.summary-grid{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:14px;
+  margin-top:16px
+}
+.summary-card{
+  border-radius:22px;
+  padding:18px;
+  box-shadow:none
+}
+.summary-card:nth-child(1){background:linear-gradient(180deg,#fff8f5,#fff)}
+.summary-card:nth-child(2){background:linear-gradient(180deg,#f8f5ff,#fff)}
+.summary-card:nth-child(3){background:linear-gradient(180deg,#f1faf7,#fff)}
+.criteria{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:12px;
+  margin:18px 0
+}
+.criterion{
+  border:1px solid var(--line);
+  border-radius:18px;
+  padding:16px;
+  background:white
+}
+.criterion .ico{
+  width:34px;height:34px;
+  border-radius:11px;
+  display:grid;place-items:center;
+  margin-bottom:10px;
+  font-weight:900
+}
+.c1{background:var(--coral-soft);color:#9a4f42}
+.c2{background:var(--teal-soft);color:#356d65}
+.c3{background:var(--gold-soft);color:#89671d}
+.footer-note{
+  margin-top:26px;
+  text-align:center;
+  color:var(--muted);
+  font-size:13px
+}
+.progress-note{
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+  align-items:center;
+  margin-bottom:10px;
+  font-size:12px;
+  color:var(--muted)
+}
+.progress{
+  height:8px;
+  border-radius:999px;
+  background:#ebe5dd;
+  overflow:hidden;
+}
+.progress > span{
+  display:block;height:100%;width:25%;
+  border-radius:999px;
+  background:linear-gradient(90deg,var(--violet),var(--teal));
+  transition:width .2s ease
+}
+@media(max-width:900px){
+  .hero,.case-grid,.grid2,.scamper-detail,.hat-detail{grid-template-columns:1fr}
+  .hat-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .summary-grid,.criteria{grid-template-columns:1fr}
+  .tabs-wrap{position:static}
+}
+@media(max-width:560px){
+  .wrapper{padding:16px 12px 44px}
+  .hero-main,.hero-side,.case,.panel,.method-card{padding:18px;border-radius:22px}
+  .ideas,.saved,.hat-grid{grid-template-columns:1fr}
+  .input-row{flex-direction:column}
+  h1{font-size:42px}
+  .case-head{flex-direction:column}
+  .challenge .question{font-size:20px}
+}
+</style>
+</head>
+<body>
+<div class="wrapper">
+
+  <section class="hero">
+    <div class="hero-main">
+      <div class="hero-copy">
+        <div class="kicker">Laboratorio de Pensamiento de Diseño · Ideación</div>
+        <h1>Un mismo reto.<br>Tres formas de pensar.</h1>
+        <p class="muted" style="max-width:720px">Explora cómo cambia la calidad y el tipo de ideas cuando pasamos de la asociación libre a la transformación sistemática y, finalmente, al cambio deliberado de perspectiva.</p>
+      </div>
+    </div>
+    <aside class="hero-side">
+      <div>
+        <span class="badge">✦ Sesión interactiva</span>
+        <h3 style="margin-top:16px">Ruta de la experiencia</h3>
+        <div class="route">
+          <div class="route-step"><span class="route-num">01</span><span>Comprender el reto</span></div>
+          <div class="route-step"><span class="route-num">02</span><span>Divergir</span></div>
+          <div class="route-step"><span class="route-num">03</span><span>Transformar</span></div>
+          <div class="route-step"><span class="route-num">04</span><span>Cambiar perspectiva</span></div>
+          <div class="route-step"><span class="route-num">05</span><span>Seleccionar</span></div>
+        </div>
+      </div>
+      <div style="margin-top:20px">
+        <div class="progress-note"><span>Progreso</span><span id="progressText">1 de 4</span></div>
+        <div class="progress"><span id="progressBar"></span></div>
+      </div>
+    </aside>
+  </section>
+
+  <section class="case">
+    <div class="case-head">
+      <div>
+        <div class="kicker">Mismo caso durante toda la experiencia</div>
+        <h2 style="margin-top:6px">“Profe, yo entendí… hasta que llegué a la casa”</h2>
+      </div>
+      <span class="case-tag">Caso educativo · 8.º</span>
+    </div>
+
+    <div class="case-grid">
+      <div>
+        <p>En una institución educativa pública, docentes de grado 8.º encuentran que varios estudiantes entregan tareas incompletas o no las entregan. Cuando conversan con ellos, aparece una frase recurrente: <strong>“No entendí, pero me dio pena preguntar”.</strong></p>
+        <p>Existen distintos canales para pedir ayuda: preguntar durante la clase, hablar con el docente al terminar, utilizar la plataforma institucional o consultar a un compañero. Sin embargo, muchos estudiantes no los usan.</p>
+        <p>Algunos temen quedar en evidencia frente al grupo; otros no saben explicar qué parte no entienden; algunos descubren la dificultad cuando ya están en casa y sienten que es demasiado tarde.</p>
+      </div>
+
+      <aside class="case-aside">
+        <h3>Condiciones del reto</h3>
+        <div class="constraint"><span class="dot"></span><span class="small">No podemos contratar más personal.</span></div>
+        <div class="constraint"><span class="dot"></span><span class="small">No podemos asumir conectividad permanente.</span></div>
+        <div class="constraint"><span class="dot"></span><span class="small">La solución debe reducir exposición innecesaria.</span></div>
+        <div class="constraint"><span class="dot"></span><span class="small">Podemos cambiar prácticas, recursos, espacios e interacciones.</span></div>
+      </aside>
+    </div>
+
+    <div class="challenge">
+      <div class="kicker">Reto de diseño</div>
+      <div class="question">¿Cómo podríamos facilitar que los estudiantes pidan ayuda académica a tiempo, de una manera segura, clara y útil?</div>
+    </div>
+  </section>
+
+  <div class="tabs-wrap">
+    <nav class="tabs" aria-label="Metodologías">
+      <button class="tab active" data-target="brain" data-step="1">1 · Lluvia de ideas</button>
+      <button class="tab" data-target="scamper" data-step="2">2 · SCAMPER</button>
+      <button class="tab" data-target="hats" data-step="3">3 · Sombreros</button>
+      <button class="tab" data-target="select" data-step="4">4 · Seleccionar</button>
+    </nav>
+  </div>
+
+  <section id="brain" class="method active">
+    <div class="grid2">
+      <div class="method-card">
+        <span class="tech-label tech-brain">Técnica 1 · Divergir</span>
+        <h2>Lluvia de ideas</h2>
+        <p class="muted">Primero buscamos <strong>cantidad, variedad y asociaciones</strong>. Aquí suspendemos el juicio.</p>
+        <div class="rule" style="margin-top:14px;background:var(--coral-soft);border-color:rgba(229,127,109,.25)">
+          <span class="rule-icon">→</span>
+          <span><strong>Cómo funciona:</strong> el grupo genera muchas ideas en poco tiempo, sin evaluarlas mientras aparecen. Se vale combinar, exagerar y construir sobre las propuestas de otros.</span>
+        </div>
+        <div class="rule" style="background:#fff7f4;border-color:rgba(229,127,109,.2)">
+          <span class="rule-icon">✓</span>
+          <span><strong>Cómo seleccionar:</strong> al terminar, agrupen ideas similares y elijan las que tengan mayor relación con la necesidad del usuario, novedad y posibilidad de probarse.</span>
+        </div>
+        <div class="rule-list">
+          <div class="rule"><span class="rule-icon">1</span><span>Una idea por aporte.</span></div>
+          <div class="rule"><span class="rule-icon">2</span><span>No justificar demasiado.</span></div>
+          <div class="rule"><span class="rule-icon">3</span><span>Construir sobre las ideas de otros.</span></div>
+          <div class="rule"><span class="rule-icon">4</span><span>Aceptar ideas improbables.</span></div>
+        </div>
+        <button id="brainPrompt" class="secondary" style="width:100%;margin-top:16px">Necesitamos un impulso creativo</button>
+        <p id="brainImpulse" class="small" style="margin-top:12px"><strong>Impulso:</strong> empiecen por lo obvio. Después intentaremos romperlo.</p>
+      </div>
+
+      <div class="panel">
+        <form id="brainForm">
+          <div class="input-row">
+            <input id="brainInput" maxlength="180" placeholder="Ej.: un semáforo anónimo para pedir ayuda…">
+            <button class="primary" type="submit">Agregar idea</button>
+          </div>
+        </form>
+        <p class="small muted">Ideas generadas: <strong id="brainCount">0</strong> · Meta sugerida: 8–12</p>
+        <div id="brainIdeas" class="ideas"></div>
+        <div id="brainEmpty" class="empty">La primera idea no tiene que ser brillante. Tiene que existir.</div>
+
+        <div class="bulk-box">
+          <div class="bulk-head">
+            <div>
+              <strong>Importar varias ideas del chat</strong>
+              <p class="small muted" style="margin:4px 0 0">Pega una respuesta por línea. El sistema las convertirá en tarjetas automáticamente.</p>
+            </div>
+          </div>
+          <textarea id="brainBulk" rows="5" placeholder="Ejemplo:
+Semáforo anónimo de dudas
+Tarjeta de color sobre el pupitre
+Buzón rápido al final de la clase"></textarea>
+          <div class="bulk-actions" style="margin-top:10px">
+            <button id="importBrain" type="button" class="secondary">Agregar todas</button>
+            <button id="clearBrainBulk" type="button" class="tertiary">Limpiar cuadro</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="scamper" class="method">
+    <div class="grid2">
+      <div class="method-card">
+        <span class="tech-label tech-scamper">Técnica 2 · Transformar</span>
+        <h2>SCAMPER</h2>
+        <p class="muted">No partimos de cero: tomamos una idea existente y la obligamos a cambiar mediante siete operaciones.</p>
+        <div class="rule" style="margin-top:14px;background:var(--violet-soft);border-color:rgba(122,100,216,.22)">
+          <span class="rule-icon" style="background:white;color:#5a47b6">→</span>
+          <span><strong>Cómo funciona:</strong> se parte de una idea base y se transforma con preguntas de sustituir, combinar, adaptar, modificar, poner en otros usos, eliminar y reordenar.</span>
+        </div>
+        <div class="rule" style="background:#faf8ff;border-color:rgba(122,100,216,.18)">
+          <span class="rule-icon" style="background:white;color:#5a47b6">✓</span>
+          <span><strong>Cómo seleccionar:</strong> comparen las versiones transformadas y conserven las que mejoren de forma clara la idea original: que sean más útiles, simples, inclusivas o viables.</span>
+        </div>
+      </div>
+      <div class="panel">
+        <label><strong>Idea que vamos a transformar</strong></label>
+        <select id="baseIdea" style="margin-top:8px">
+          <option value="">Selecciona una idea de la lluvia…</option>
+        </select>
+        <input id="customBase" style="margin-top:10px" placeholder="O escribe otra idea base…">
+      </div>
+    </div>
+
+    <div class="panel" style="margin-top:18px">
+      <div id="scamperButtons" class="scamper-list"></div>
+      <div class="scamper-detail">
+        <div class="method-card" style="box-shadow:none;background:linear-gradient(180deg,#faf8ff,#fff)">
+          <div id="scLetter" class="letter">S</div>
+          <h3 id="scName">Sustituir</h3>
+          <p id="scMini" class="muted small"></p>
+          <p id="scQuestion" style="margin-top:18px"></p>
+        </div>
+        <div>
+          <label><strong>¿Qué nueva idea aparece?</strong></label>
+          <textarea id="scText" rows="6" style="margin-top:8px" placeholder="Transformen la idea; no se limiten a contestar la pregunta…"></textarea>
+          <button id="saveSc" class="primary" style="margin-top:10px">Guardar transformación</button>
+          <div id="scSaved" class="saved"></div>
+
+          <div class="bulk-box">
+            <div class="bulk-head">
+              <div>
+                <strong>Importar varias respuestas SCAMPER</strong>
+                <p class="small muted" style="margin:4px 0 0">Pega una propuesta por línea. Se guardarán asociadas a la operación SCAMPER que esté activa.</p>
+              </div>
+            </div>
+            <textarea id="scBulk" rows="5" placeholder="Una transformación por línea…"></textarea>
+            <div class="bulk-actions" style="margin-top:10px">
+              <button id="importSc" type="button" class="secondary">Agregar todas</button>
+              <button id="clearScBulk" type="button" class="tertiary">Limpiar cuadro</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="hats" class="method">
+    <div class="grid2">
+      <div class="method-card">
+        <span class="tech-label tech-hats">Técnica 3 · Cambiar perspectiva</span>
+        <h2>Sombreros de pensamiento</h2>
+        <p class="muted">La creatividad aparece cuando cambiamos deliberadamente la mirada sobre el mismo problema.</p>
+        <div class="rule" style="margin-top:14px;background:var(--teal-soft);border-color:rgba(90,154,145,.22)">
+          <span class="rule-icon" style="background:white;color:#356d65">→</span>
+          <span><strong>Cómo funciona:</strong> cada sombrero obliga a mirar el reto desde una perspectiva distinta: hechos, emociones, riesgos, oportunidades, creatividad, proceso y futuro.</span>
+        </div>
+        <div class="rule" style="background:#f3faf8;border-color:rgba(90,154,145,.18)">
+          <span class="rule-icon" style="background:white;color:#356d65">✓</span>
+          <span><strong>Cómo seleccionar:</strong> integren lo aprendido con todos los sombreros y elijan una idea que conserve el potencial creativo, pero que también responda a los datos, reduzca riesgos y genere valor para el usuario.</span>
+        </div>
+        <p class="small muted">Usamos los seis sombreros clásicos y añadimos un séptimo de futuro como adaptación didáctica para esta actividad.</p>
+      </div>
+      <div class="panel">
+        <h3>Dinámica</h3>
+        <p class="muted">Seleccionen un sombrero, respondan desde esa perspectiva y registren una idea o hallazgo. Después cambien de sombrero.</p>
+      </div>
+    </div>
+
+    <div id="hatButtons" class="hat-grid"></div>
+
+    <div class="panel hat-detail">
+      <div>
+        <div id="hatLabel" class="kicker">Sombrero blanco</div>
+        <h2 id="hatTitle">Hechos y datos</h2>
+        <p id="hatPurpose" class="muted"></p>
+        <div class="rule" style="margin-top:16px"><span class="rule-icon">?</span><span id="hatQuestion"></span></div>
+      </div>
+      <div>
+        <label><strong>Aporte desde este sombrero</strong></label>
+        <textarea id="hatText" rows="6" style="margin-top:8px" placeholder="¿Qué permite descubrir o proponer esta perspectiva?"></textarea>
+        <button id="saveHat" class="primary" style="margin-top:10px">Guardar aporte</button>
+      </div>
+    </div>
+    <div id="hatSaved" class="saved"></div>
+
+    <div class="panel" style="margin-top:18px">
+      <div class="bulk-head">
+        <div>
+          <strong>Importar varias respuestas del chat</strong>
+          <p class="small muted" style="margin:4px 0 0">Pega una respuesta por línea. Se guardarán bajo el sombrero que esté seleccionado.</p>
+        </div>
+      </div>
+      <textarea id="hatBulk" rows="5" placeholder="Una respuesta por línea…"></textarea>
+      <div class="bulk-actions" style="margin-top:10px">
+        <button id="importHat" type="button" class="secondary">Agregar todas</button>
+        <button id="clearHatBulk" type="button" class="tertiary">Limpiar cuadro</button>
+      </div>
+    </div>
+  </section>
+
+  <section id="select" class="method">
+    <div class="panel">
+      <span class="tech-label" style="background:var(--gold-soft);color:#87641a">Convergencia · Elegir</span>
+      <h2>¿Qué produjo cada técnica?</h2>
+      <p class="muted">Ahora dejamos de generar para comparar. No busquen la idea perfecta: identifiquen una que responda al usuario y que valga la pena prototipar.</p>
+
+      <div class="summary-grid">
+        <div class="summary-card">
+          <h3>☁ Lluvia de ideas</h3>
+          <p class="small muted">Asociación libre</p>
+          <div id="sumBrain"></div>
+        </div>
+        <div class="summary-card">
+          <h3>↻ SCAMPER</h3>
+          <p class="small muted">Transformación sistemática</p>
+          <div id="sumSc"></div>
+        </div>
+        <div class="summary-card">
+          <h3>◒ Sombreros</h3>
+          <p class="small muted">Cambio de perspectiva</p>
+          <div id="sumHat"></div>
+        </div>
+      </div>
+
+      <div class="criteria">
+        <div class="criterion">
+          <div class="ico c1">♥</div>
+          <strong>Deseabilidad</strong>
+          <p class="small muted">¿Responde a una necesidad real del estudiante?</p>
+        </div>
+        <div class="criterion">
+          <div class="ico c2">✓</div>
+          <strong>Viabilidad</strong>
+          <p class="small muted">¿Podría funcionar en las condiciones de la institución?</p>
+        </div>
+        <div class="criterion">
+          <div class="ico c3">↗</div>
+          <strong>Potencial de prueba</strong>
+          <p class="small muted">¿Podemos aprender algo probándola pronto?</p>
+        </div>
+      </div>
+
+      <div class="grid2" style="grid-template-columns:1fr 1fr">
+        <div>
+          <label><strong>Idea que llevaríamos a prototipo</strong></label>
+          <textarea id="winner" rows="4" style="margin-top:8px" placeholder="Nuestra idea es…"></textarea>
+        </div>
+        <div>
+          <label><strong>¿Por qué vale la pena probarla?</strong></label>
+          <textarea id="whyWinner" rows="4" style="margin-top:8px" placeholder="La seleccionamos porque…"></textarea>
+        </div>
+      </div>
+
+      <button id="closeLab" class="primary" style="margin-top:14px">Cerrar laboratorio</button>
+      <p id="closeMsg" style="font-weight:800"></p>
+    </div>
+
+    <div class="challenge" style="margin-top:18px;background:linear-gradient(135deg,#edf7f4,#f7f3ff)">
+      <div class="kicker">Pregunta de cierre</div>
+      <div class="question">Si las tres técnicas trabajaron exactamente el mismo problema, ¿por qué no produjeron exactamente las mismas ideas?</div>
+    </div>
+  </section>
+
+  <p class="footer-note">Laboratorio de Pensamiento de Diseño I · Ideación aplicada a un reto educativo</p>
+</div>
+
+<script>
+const brain=[], scIdeas=[], hatIdeas=[];
+const impulses=[
+"¿Qué harían si la solución no pudiera incluir tecnología?",
+"Propongan una solución que cueste cero pesos.",
+"¿Cómo sería una solución que no obligara al estudiante a hablar?",
+"Inventen una solución absurda. ¿Qué parte podría rescatarse?",
+"¿Cómo sería una solución que funcionara en menos de 20 segundos?",
+"¿Qué podría hacer visible una dificultad que hoy permanece invisible?",
+"¿Qué copiarían de un videojuego, un hospital o un sistema de turnos?"
+];
+const scamper=[
+["S","Sustituir","Cambiar un elemento por otro.","¿Qué podríamos sustituir del modo actual de pedir ayuda para reducir la vergüenza o la espera?"],
+["C","Combinar","Unir elementos que hoy funcionan separados.","¿Qué podríamos combinar con la solicitud de ayuda para que ocurra de manera más natural?"],
+["A","Adaptar","Traer una práctica de otro contexto.","¿Qué solución de otro ámbito podríamos adaptar a este problema educativo?"],
+["M","Modificar","Cambiar forma, tamaño, frecuencia o intensidad.","¿Qué pasaría si pedir ayuda fuera más breve, visual, anticipado o frecuente?"],
+["P","Poner en otros usos","Dar una función nueva a algo existente.","¿Qué recurso que ya tiene la institución podría utilizarse de una manera diferente?"],
+["E","Eliminar","Quitar pasos, barreras o requisitos.","¿Qué podríamos eliminar para que pedir ayuda requiera menos exposición o esfuerzo?"],
+["R","Reordenar / invertir","Cambiar secuencia o roles.","¿Qué pasaría si la ayuda apareciera antes de que el estudiante tuviera que pedirla?"]
+];
+const hats=[
+["⚪","Blanco","Hechos y datos","Observar sin interpretar. Separar lo que sabemos de lo que suponemos.","¿Qué sabemos realmente del problema y qué información todavía nos falta?"],
+["🔴","Rojo","Emociones e intuición","Reconocer sentimientos, temores y reacciones sin justificarlos.","¿Qué podría sentir un estudiante cuando necesita ayuda y decide no pedirla?"],
+["⚫","Negro","Riesgos y precauciones","Detectar dificultades y posibles efectos no deseados.","¿Qué podría salir mal con las soluciones que estamos imaginando?"],
+["🟡","Amarillo","Valor y oportunidades","Buscar beneficios y condiciones favorables.","¿Qué cambiaría positivamente si resolviéramos este problema?"],
+["🟢","Verde","Creatividad y alternativas","Romper patrones y producir opciones no evidentes.","¿Qué solución inesperada o provocadora podríamos intentar?"],
+["🔵","Azul","Proceso y enfoque","Organizar el pensamiento y decidir hacia dónde avanzar.","¿Qué hemos descubierto y hacia dónde conviene dirigir la ideación?"],
+["🟣","Futuro","Proyección e innovación","Adaptación para imaginar cómo debería funcionar la experiencia en el futuro.","Si este problema desapareciera dentro de dos años, ¿qué estaría ocurriendo de manera diferente?"]
+];
+
+document.querySelectorAll(".tab").forEach(btn=>{
+  btn.addEventListener("click",()=>{
+    document.querySelectorAll(".tab").forEach(b=>b.classList.remove("active"));
+    document.querySelectorAll(".method").forEach(s=>s.classList.remove("active"));
+    btn.classList.add("active");
+    document.getElementById(btn.dataset.target).classList.add("active");
+    const step=Number(btn.dataset.step)||1;
+    document.getElementById("progressBar").style.width=(step*25)+"%";
+    document.getElementById("progressText").textContent=step+" de 4";
+    if(btn.dataset.target==="scamper") refreshBase();
+    if(btn.dataset.target==="select") renderSummary();
+    window.scrollTo({top:document.querySelector(".tabs-wrap").offsetTop-8,behavior:"smooth"});
+  });
+});
+
+document.getElementById("brainPrompt").addEventListener("click",()=>{
+  document.getElementById("brainImpulse").innerHTML="<strong>Impulso:</strong> "+impulses[Math.floor(Math.random()*impulses.length)];
+});
+
+document.getElementById("brainForm").addEventListener("submit",e=>{
+  e.preventDefault();
+  const input=document.getElementById("brainInput");
+  const v=input.value.trim();
+  if(!v) return;
+  brain.push(v); input.value=""; renderBrain();
+});
+
+function renderBrain(){
+  const box=document.getElementById("brainIdeas");
+  box.innerHTML="";
+  brain.forEach((x,i)=>{
+    const d=document.createElement("div");
+    d.className="idea";
+    d.innerHTML='<span class="idea-num">'+(i+1)+'</span><div class="idea-text"></div>';
+    d.querySelector(".idea-text").textContent=x;
+    box.appendChild(d);
+  });
+  document.getElementById("brainCount").textContent=brain.length;
+  document.getElementById("brainEmpty").style.display=brain.length?"none":"block";
+}
+
+function refreshBase(){
+  const s=document.getElementById("baseIdea");
+  const current=s.value;
+  s.innerHTML='<option value="">Selecciona una idea de la lluvia…</option>';
+  brain.forEach(x=>{
+    const o=document.createElement("option"); o.value=x; o.textContent=x; s.appendChild(o);
+  });
+  if([...s.options].some(o=>o.value===current)) s.value=current;
+}
+
+let scActive=0;
+function renderScamperButtons(){
+  const box=document.getElementById("scamperButtons"); box.innerHTML="";
+  scamper.forEach((x,i)=>{
+    const b=document.createElement("button");
+    b.type="button";
+    b.className="pill"+(i===scActive?" active":"");
+    b.textContent=x[0]+" · "+x[1];
+    b.addEventListener("click",()=>{scActive=i;renderScamperButtons();showScamper();});
+    box.appendChild(b);
+  });
+}
+function showScamper(){
+  const x=scamper[scActive];
+  document.getElementById("scLetter").textContent=x[0];
+  document.getElementById("scName").textContent=x[1];
+  document.getElementById("scMini").textContent=x[2];
+  document.getElementById("scQuestion").textContent=x[3];
+}
+document.getElementById("saveSc").addEventListener("click",()=>{
+  const t=document.getElementById("scText"), v=t.value.trim();
+  if(!v) return;
+  const base=document.getElementById("customBase").value.trim()||document.getElementById("baseIdea").value||"Idea inicial";
+  scIdeas.push({method:scamper[scActive][1],base,text:v});
+  t.value=""; renderScSaved();
+});
+function renderScSaved(){
+  const box=document.getElementById("scSaved"); box.innerHTML="";
+  scIdeas.forEach(x=>{
+    const d=document.createElement("div"); d.className="saved-item";
+    d.innerHTML="<strong>"+x.method+"</strong><br>";
+    d.appendChild(document.createTextNode(x.text));
+    box.appendChild(d);
+  });
+}
+
+let hatActive=0;
+function renderHats(){
+  const box=document.getElementById("hatButtons"); box.innerHTML="";
+  hats.forEach((h,i)=>{
+    const b=document.createElement("button");
+    b.type="button";
+    b.className="hat"+(i===hatActive?" active":"");
+    b.innerHTML='<div class="hat-icon">'+h[0]+'</div><div class="hat-name">'+h[1]+'</div><div class="hat-sub">'+h[2]+'</div>';
+    b.addEventListener("click",()=>{hatActive=i;renderHats();showHat();});
+    box.appendChild(b);
+  });
+}
+function showHat(){
+  const h=hats[hatActive];
+  document.getElementById("hatLabel").textContent="Sombrero "+h[1].toLowerCase();
+  document.getElementById("hatTitle").textContent=h[2];
+  document.getElementById("hatPurpose").textContent=h[3];
+  document.getElementById("hatQuestion").textContent=h[4];
+}
+document.getElementById("saveHat").addEventListener("click",()=>{
+  const t=document.getElementById("hatText"), v=t.value.trim();
+  if(!v) return;
+  hatIdeas.push({hat:hats[hatActive][1],text:v});
+  t.value=""; renderHatSaved();
+});
+function renderHatSaved(){
+  const box=document.getElementById("hatSaved"); box.innerHTML="";
+  hatIdeas.forEach(x=>{
+    const d=document.createElement("div"); d.className="saved-item";
+    d.innerHTML="<strong>"+x.hat+"</strong><br>";
+    d.appendChild(document.createTextNode(x.text));
+    box.appendChild(d);
+  });
+}
+
+function fillSummary(id,items,mapper){
+  const box=document.getElementById(id); box.innerHTML="";
+  if(!items.length){
+    box.innerHTML='<p class="small muted">Aún no hay aportes.</p>';
+    return;
+  }
+  items.forEach(x=>{
+    const d=document.createElement("div");
+    d.className="saved-item";
+    d.style.marginTop="8px";
+    d.textContent=mapper(x);
+    box.appendChild(d);
+  });
+}
+function renderSummary(){
+  fillSummary("sumBrain",brain,x=>x);
+  fillSummary("sumSc",scIdeas,x=>x.text);
+  fillSummary("sumHat",hatIdeas,x=>x.hat+": "+x.text);
+}
+
+document.getElementById("closeLab").addEventListener("click",()=>{
+  const a=document.getElementById("winner").value.trim();
+  const b=document.getElementById("whyWinner").value.trim();
+  document.getElementById("closeMsg").textContent =
+    a&&b ? "Cierre logrado: ya tienen una idea candidata y una razón para convertirla en prototipo." :
+    "Completen la idea seleccionada y la razón antes de cerrar.";
+});
+
+
+function parseBulk(text){
+  return text
+    .split(/\r?\n/)
+    .map(x=>x.trim())
+    .filter(Boolean)
+    .map(x=>x.replace(/^[-•*]\s*/,""))
+    .map(x=>x.replace(/^\d+[\.\)\-:]\s*/,""))
+    .filter(Boolean);
+}
+
+document.getElementById("importBrain").addEventListener("click",()=>{
+  const box=document.getElementById("brainBulk");
+  const items=parseBulk(box.value);
+  if(!items.length) return;
+  items.forEach(x=>brain.push(x));
+  box.value="";
+  renderBrain();
+});
+document.getElementById("clearBrainBulk").addEventListener("click",()=>{
+  document.getElementById("brainBulk").value="";
+});
+
+document.getElementById("importSc").addEventListener("click",()=>{
+  const box=document.getElementById("scBulk");
+  const items=parseBulk(box.value);
+  if(!items.length) return;
+  const base=document.getElementById("customBase").value.trim()||document.getElementById("baseIdea").value||"Idea inicial";
+  items.forEach(x=>scIdeas.push({method:scamper[scActive][1],base,text:x}));
+  box.value="";
+  renderScSaved();
+});
+document.getElementById("clearScBulk").addEventListener("click",()=>{
+  document.getElementById("scBulk").value="";
+});
+
+document.getElementById("importHat").addEventListener("click",()=>{
+  const box=document.getElementById("hatBulk");
+  const items=parseBulk(box.value);
+  if(!items.length) return;
+  items.forEach(x=>hatIdeas.push({hat:hats[hatActive][1],text:x}));
+  box.value="";
+  renderHatSaved();
+});
+document.getElementById("clearHatBulk").addEventListener("click",()=>{
+  document.getElementById("hatBulk").value="";
+});
+
+renderBrain();
+renderScamperButtons();
+showScamper();
+renderHats();
+showHat();
+</script>
+</body>
+</html>
